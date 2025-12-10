@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image';
 import React from 'react'
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -42,8 +43,8 @@ const data = [
 const AttendanceCharts = () => {
   return (
     <div className='bg-white rounded-lg p-4 h-full'>
-        <div className=''>
-        <h1>Attendance</h1>
+        <div className='flex justify-between items-center'>
+        <h1 className='text-lg font-semibold'>Attendance</h1>
         <Image src="/moreDark.png" alt='' width={20} height={20}/>
         </div>
        <BarChart
@@ -53,13 +54,13 @@ const AttendanceCharts = () => {
       barSize={20}
      
     >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis width="auto" />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-      <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke='#ddd' />
+      <XAxis dataKey="name" axisLine={false} tick={{fill:"#d1d5db"}} tickLine={false} />
+      <YAxis width="auto" axisLine={false} tick={{fill:"#d1d5db"}} tickLine={false} />
+      <Tooltip contentStyle={{borderRadius:"10px", borderColor:"lightgray"}} />
+      <Legend align='left' verticalAlign='top' wrapperStyle={{paddingTop:"20px",paddingBottom:"40px"}} />
+      <Bar dataKey="absent" fill="#FAE27C" legendType='circle' radius={[10,10,0,0]} />
+      <Bar dataKey="present" fill="#C3EBFA" legendType='circle' radius={[10,10,0,0]}  />
     </BarChart>
     </div>
   )

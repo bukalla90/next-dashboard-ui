@@ -1,5 +1,7 @@
 import AttendanceCharts from '@/components/AttendanceCharts'
 import CounterChart from '@/components/CounterChart'
+import EventCalander from '@/components/EventCalander'
+import FinanceChart from '@/components/FinanceChart'
 import UserCard from '@/components/UserCard'
 import React from 'react'
 
@@ -26,11 +28,16 @@ const AdminPage = () => {
       
       </div>
       {/* Bottom charts */}
-      <div></div>
+      <div className='w-full h-[500px]'>
+      <FinanceChart/>
+      </div>
       
       </div>
       {/* right */}
-      <div className=' h-screen w-full lg:w-1/3'>r</div>
+      <div className=' h-screen w-full lg:w-1/3 flex flex-col gap-8'>
+      
+      <EventCalander/>
+      </div>
     </div>
   )
 }
