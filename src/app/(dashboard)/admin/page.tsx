@@ -1,3 +1,4 @@
+import Annaouncement from '@/components/Annaouncement'
 import AttendanceCharts from '@/components/AttendanceCharts'
 import CounterChart from '@/components/CounterChart'
 import EventCalander from '@/components/EventCalander'
@@ -37,6 +38,7 @@ const AdminPage = () => {
       <div className=' h-screen w-full lg:w-1/3 flex flex-col gap-8'>
       
       <EventCalander/>
+      <Annaouncement/>
       </div>
     </div>
   )
