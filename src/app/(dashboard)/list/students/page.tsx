@@ -1,3 +1,4 @@
+import FormModel from "@/components/FormModel";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -74,15 +75,18 @@ const StudentListPage = () => {
 
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/teachers/${item.id}`}>
+          <Link href={`/list/students/${item.id}`}>
             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamasky">
               <Image src="/view.png" alt="" width={16} height={16} />
             </button>
           </Link>
 
-          {role ==="admin" && <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamapurple">
-            <Image src="/delete.png" alt="" width={16} height={16} />
-          </button>}
+          {role ==="admin" &&
+          //  <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamapurple">
+          //   <Image src="/delete.png" alt="" width={16} height={16} />
+          // </button>
+           <FormModel table="student" type="delete" id={item.id}/>
+          }
         </div>
       </td>
     </tr>
@@ -104,9 +108,12 @@ const StudentListPage = () => {
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamayellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-          { role==="admin" && <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamayellow">
-              <Image src="/plus.png" alt="" width={14} height={14} />
-            </button>}
+          { role==="admin" && 
+          // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamayellow">
+          //     <Image src="/plus.png" alt="" width={14} height={14} />
+          //   </button>
+           <FormModel table="student" type="create" />
+            }
           </div>
         </div>
       </div>
