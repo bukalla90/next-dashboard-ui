@@ -76,20 +76,13 @@ const ResultListPage = () => {
 
         <td>
           <div className="flex items-center gap-2">
-{ role==="admin" &&         <Link href={`/list/results/${item.id}`}>
-              {/* <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamasky">
-                <Image src="/edit.png" alt="" width={16} height={16} />
-              </button> */}
-              <FormModel table="result" type="update" data={item}/>
-                          
-            </Link>}
-
-            {role === "admin" && (
-              // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamapurple">
-              //   <Image src="/delete.png" alt="" width={16} height={16} />
-              // </button>
-              <FormModel table="result" type="delete" id={item.id}/>
-            )}
+  { role==="admin" &&
+          <>
+           <FormModel table="assignment" type="update" data={item}/>
+           <FormModel table="assignment" type="delete" id={item.id}/>
+          </>
+             
+             }
           </div>
         </td>
       </tr>
