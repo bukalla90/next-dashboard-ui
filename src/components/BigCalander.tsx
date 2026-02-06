@@ -12,23 +12,21 @@ const localizer = momentLocalizer(moment);
 const BigCalendar = () => {
   const [view, setView] = useState<View>(Views.WORK_WEEK);
 
-  const handleOnchangeView = (selectedView: View) => {
-    setView(selectedView);
-  };
-
   return (
-    <Calendar
-      localizer={localizer}
-      events={calendarEvents}
-      startAccessor="start"
-      endAccessor="end"
-      views={["work_week", "day"]}
-      view={view}
-      style={{ height: "98%" }}
-      onView={handleOnchangeView}
-      min={new Date(2025, 1, 0, 8, 0, 0)}
-      max={new Date(2025, 1, 0, 17, 0, 0)}
-    />
+    <div className="h-screen">
+      <Calendar
+        localizer={localizer}
+        events={calendarEvents}
+        startAccessor="start"
+        endAccessor="end"
+        views={[Views.WORK_WEEK, Views.DAY]}
+        view={view}
+        onView={setView}
+        defaultDate={new Date(2025, 11, 14)}
+        min={new Date(2025, 11, 14, 8, 0)}
+        max={new Date(2025, 11, 14, 17, 0)}
+      />
+    </div>
   );
 };
 

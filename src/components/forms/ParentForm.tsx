@@ -45,7 +45,7 @@ const ParentForm = ({
     console.log(data)
   })
   return <form onSubmit={onSubmit} className="felx flex-col gap-8">
-<h1 className="text-xl font-semibold">Create a new Parent</h1>
+<h1 className="text-xl font-semibold">Create a new Parentnpx tsx prisma/seed.tsnpx tsx prisma/seed.ts</h1>
 <span className="text-xs text-gray-400 font-medium">Authentication Information</span>
 <div className="flex justify-between flex-wrap gap-4">
 

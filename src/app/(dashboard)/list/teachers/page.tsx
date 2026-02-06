@@ -1,22 +1,19 @@
+import type { Prisma } from "@/generated/prisma";
+
 import FormModel from "@/components/FormModel";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
+import { Class, Subject, Teacher } from "@/generated/prisma";
 import { role, teachersData } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-type Teacher = {
-  id: number;
-  teacherId: string;
-  name: string;
-  email?: string;
-  photo: string;
-  phone: string;
-  subjects: string[];
-  classes: string[];
-  address: string;
-};
+
+import { Item_per_page } from "@/lib/settings";
+type TeacherList=Teacher & {subjects:Subject[]} & {classes:Class[]}
+
 const columns = [
   {
     header: "info",
@@ -52,14 +49,12 @@ const columns = [
     accessor: "actions",
   },
 ];
-
-const TeacherListPage = () => {
- const renderRow = (item: Teacher) => {
+ const renderRow = (item: TeacherList) => {
   return (
     <tr key={item.id} className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamapurplelight">
       <td className="flex items-center gap-4 p-4">
         <Image
-          src={item.photo}
+          src={item.img || "/avatar.png"}
           alt=""
           width={40}
           height={40}
@@ -71,9 +66,9 @@ const TeacherListPage = () => {
         </div>
       </td>
 
-      <td className="hidden md:table-cell">{item.teacherId}</td>
-      <td className="hidden md:table-cell">{item.subjects.join(",")}</td>
-      <td className="hidden md:table-cell">{item.classes.join(",")}</td>
+      <td className="hidden md:table-cell">{item.username}</td>
+     <td className="hidden md:table-cell">{item.subjects.map(subject=>subject.name).join(",")}</td>
+      <td className="hidden md:table-cell">{item.classes.map(classItem=>classItem.name).join(",")}</td>
       <td className="hidden md:table-cell">{item.phone}</td>
       <td className="hidden md:table-cell">{item.address}</td>
 
@@ -96,6 +91,50 @@ const TeacherListPage = () => {
     </tr>
   );
 };
+
+const TeacherListPage = async({searchParams}:{searchParams:{[key:string]:string} | undefined}) => {
+console.log(searchParams)
+const {page,...queryParams}=searchParams ||{};
+const p= page ? parseInt(page) : 1
+
+// Url params conditions
+ const query:Prisma.TeacherWhereInput={};
+
+ if(queryParams){
+  for(const [key,value] of Object.entries(queryParams)){
+    if(value !==undefined){
+      switch(key){
+        case "classId":
+          query.lessons={
+            some:{
+              id:parseInt(value)
+            }
+          }
+          break;
+          case "search":
+            query.name={
+              contains:value,
+              mode:"insensitive"}
+      }
+    }
+ }
+
+
+
+const [data,count] = await prisma.$transaction([
+  prisma.teacher.findMany({
+  where:query,
+   include:{
+    subjects:true,
+    classes:true,
+  },
+  take:Item_per_page,
+  skip:Item_per_page*(p-1),
+}),
+prisma.teacher.count(),
+
+])
+
 
 
   return (
@@ -123,12 +162,12 @@ const TeacherListPage = () => {
         </div>
       </div>
       {/* List */}
-      <Table columns={columns} renderRow={renderRow} data={teachersData} />
+      <Table columns={columns} renderRow={renderRow} data={data} />
 
       {/* Pagination */}
-      <Pagination />
+      <Pagination page={p} count={count} />
     </div>
   );
-};
+}};
 
 export default TeacherListPage;
